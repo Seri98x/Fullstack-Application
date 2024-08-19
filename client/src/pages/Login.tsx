@@ -7,6 +7,7 @@ function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const token = sessionStorage.getItem("token");
     const handleClick = async () => {
 
 
@@ -30,7 +31,10 @@ function Login() {
 
             // Parse the JSON response
             const data = await response.json();
-            console.log(data);  // Handle the response data as needed
+
+            //Store the token in the local storage
+
+            sessionStorage.setItem("token", data.access_token)
 
         } catch (error) {
             // Handle any errors that occur during the fetch
@@ -42,46 +46,64 @@ function Login() {
 
     return (
 
+
         <IonContent>
-            <IonCard>
-                <IonCardHeader>
-                    <IonCardTitle>
-                        Login
-                    </IonCardTitle>
-                </IonCardHeader>
-
-                <IonCardContent>
-
-                    <IonInput
-                        //   className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
-                        type="email"
-                        fill="outline"
-                        label="Username"
-                        labelPlacement="floating"
-                        errorText="Invalid email"
-                        value={username}
-                        onIonInput={(event: CustomEvent) => setUsername(event.detail.value as string)}
-                    //   onIonBlur={() => markTouched()}
-                    ></IonInput>
-
-                    <IonInput
-                        //   className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
-                        type="email"
-                        fill="outline"
-                        label="Password"
-                        labelPlacement="floating"
-                        errorText="Invalid email"
-                        value={password}
-                        onIonInput={(event: CustomEvent) => setPassword(event.detail.value as string)}
-                    //   onIonBlur={() => markTouched()}
-                    ></IonInput>
+            {token && token != "" && token != undefined ? ("" + token) :
 
 
-                    <IonButton onClick={handleClick} >
-                        Login
-                    </IonButton>
-                </IonCardContent>
-            </IonCard>
+                (
+
+
+                    <IonCard>
+                        <IonCardHeader>
+                            <IonCardTitle>
+                                Login
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonInput
+                                //   className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
+                                type="email"
+                                fill="outline"
+                                label="Username"
+                                labelPlacement="floating"
+                                errorText="Invalid email"
+                                value={username}
+                                onIonInput={(event: CustomEvent) => setUsername(event.detail.value as string)}
+                            //   onIonBlur={() => markTouched()}
+                            ></IonInput>
+
+                            <IonInput
+                                //   className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
+                                type="email"
+                                fill="outline"
+                                label="Password"
+                                labelPlacement="floating"
+                                errorText="Invalid email"
+                                value={password}
+                                onIonInput={(event: CustomEvent) => setPassword(event.detail.value as string)}
+                            //   onIonBlur={() => markTouched()}
+                            ></IonInput>
+
+
+                            <IonButton onClick={handleClick} >
+                                Login
+                            </IonButton>
+                        </IonCardContent>
+                    </IonCard>
+
+                )}
+
+             
+
+
+
+
+
+
+
         </IonContent>
 
     );
