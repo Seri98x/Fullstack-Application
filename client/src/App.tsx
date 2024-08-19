@@ -8,6 +8,10 @@ import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
+import Login from './pages/Login';
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import Homepage from './pages/Homepage';
+import ProductDetails from './pages/ProductDetails';
 
 setupIonicReact();
 
@@ -17,14 +21,28 @@ function App() {
   return (
     <>
       <IonApp>
+
+
         <IonContent>
-        <IonButton>Default</IonButton>
-      <IonButton disabled={true}>Disabled</IonButton>
+
+            <BrowserRouter>
+
+             <Routes>
+
+
+              <Route path="login" element={<Login/>}/>
+              <Route path="/" element={<Homepage/>}/>
+              <Route path="productdetails" element={<ProductDetails/>}/>
+
+             </Routes>
+ 
+
+            </BrowserRouter>
+
         </IonContent>
-     
+
+
       </IonApp>
-      
-    
     </>
   )
 }
