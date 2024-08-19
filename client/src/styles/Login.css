@@ -1,0 +1,31 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../assets/loginbg.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+
+.login-footer {
+    margin-top: 5rem;
+    font-weight: lighter;
+    display: flex;
+    height: 5%;
+    justify-content: center;
+
+}
+
+.login-footer-logo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ionic-logo {
+    width: 50%;
+    height: 25%;
+}

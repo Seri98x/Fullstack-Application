@@ -1,40 +1,48 @@
 import React from 'react';
-import { useState } from 'react'
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput } from '@ionic/react';
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store.tsx';
+import { loginUser } from '../store/authSlice.tsx'
+import { useNavigate } from 'react-router-dom';
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel } from '@ionic/react';
+import '../styles/Login.css'
+import ionicLogo from '../assets/ioniclogo.png';
+import reactLogo from '../assets/reactlogo.png';
+
 
 
 function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
+
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, [token, navigate]);
+
     const handleClick = async () => {
 
 
         try {
-            // Log username and password to the console
-            console.log(username + " " + password);
+            const userCreds = {
+                username,
+                password
+            };
 
-            // Make a fetch request to the local server
-            const response = await fetch('http://localhost:5000/login', {
-                method: 'POST',  // Adjust the method as needed
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),  // Send username and password in the body
+            const resultAction = await dispatch(loginUser(userCreds)).then((result) => {
+                if (result.payload) {
+                    setUsername("");
+                    setPassword("");
+                    navigate('/');
+                }
             });
 
-            // Check if the response is ok (status in the range 200-299)
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
 
-            // Parse the JSON response
-            const data = await response.json();
-
-            //Store the token in the local storage
-
-            sessionStorage.setItem("token", data.access_token)
 
         } catch (error) {
             // Handle any errors that occur during the fetch
@@ -46,15 +54,13 @@ function Login() {
 
     return (
 
+   
 
-        <IonContent>
+          
+          <div className="login-container">
             {token && token != "" && token != undefined ? ("" + token) :
-
-
                 (
-
-
-                    <IonCard>
+                    <IonCard >
                         <IonCardHeader>
                             <IonCardTitle>
                                 Login
@@ -92,19 +98,25 @@ function Login() {
                                 Login
                             </IonButton>
                         </IonCardContent>
+                        
                     </IonCard>
 
                 )}
 
-             
+
+                <div className='login-footer'>
+                    <img src={ionicLogo}></img>
+                    <img src={reactLogo}></img>
+
+                </div>
+
+               
+              
 
 
 
-
-
-
-
-        </IonContent>
+</div>
+       
 
     );
 }
