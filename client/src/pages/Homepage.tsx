@@ -3,10 +3,21 @@ import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButto
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store'; // Adjust the path to your store file
-import { createProduct, fetchProducts, selectAllProducts } from '../store/productSlice'; // Adjust the path to your productSlice
+import {  } from '../store/productSlice'; // Adjust the path to your productSlice
 import { addOutline } from 'ionicons/icons'; // For the icons
 import '../styles/Homepage.css'; // Add your styles here
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
+import { RootState } from '../store/store'
+import { addProduct } from '../store/productSlice';
+
+
+interface Product {
+  id:string,
+  name:string,
+  description:string,
+  price:number
+}
+
 
 function Homepage() {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -16,8 +27,8 @@ function Homepage() {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const productsInit = useSelector((state:any) => state.prod );
-  const products = productsInit.products;
+  const productsInit = useSelector((state: RootState) => state.prod.products );
+  const products = productsInit
   console.log(products[0]);
   
 
@@ -25,19 +36,38 @@ function Homepage() {
   function confirm() {
 
     modal.current?.dismiss([addProductName.current?.value,addProductDescription.current?.value,addProductPrice.current?.value], 'confirm');
-     const name : string = String(addProductName.current?.value || '') ;
-    const description : string = String(addProductDescription.current?.value || '');
-    const priceString = addProductPrice.current?.value || '0'; // Default to '0' if undefined
-    const newProduct = {
-      id: Date.now(), // Generate a unique ID (consider using a better method for unique IDs)
+     const name : string = String(addProductName.current?.value) ;
+    const description : string = String(addProductDescription.current?.value);
+    const priceString = addProductPrice.current?.value; // Default to '0' if undefined
+    const price = parseFloat(String(priceString)); // Convert to number
+    
+    
+    
+    if (
+      !name || 
+      !description || 
+      isNaN(parseFloat(String(priceString))) || 
+      parseFloat(String(priceString)) <= 0
+    ) {
+      alert(
+        'Please ensure all fields are filled correctly: \n' +
+        'Name and description are required.\n' +
+        'Price must be a positive number.'
+      );
+      return;
+    }
+    
+    const newProduct:Product  =   {
+      id: String(Date.now()), // Generate a unique ID (consider using a better method for unique IDs)
       name,
       description,
-      priceString,
-      picture: 'https://example.com/default-product.png' // Use a default picture or provide another method to add it
+      price,
     };
 
-    dispatch(createProduct(newProduct) as any);
-    console.log(products);
+
+
+
+    dispatch(addProduct(newProduct));
 
   }
 

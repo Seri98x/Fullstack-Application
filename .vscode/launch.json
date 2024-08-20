@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flask API Debug",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/api.py",
+            "console": "integratedTerminal",
+            "env": {
+                "FLASK_APP": "api.py",
+                "FLASK_ENV": "development"
+            },
+            "args": [
+                "run"
+            ],
+            "jinja": true
+        }
+    ]
+}

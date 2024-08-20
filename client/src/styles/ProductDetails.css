@@ -1,3 +1,10 @@
 ion-col {
     align-self: center;
 }
+
+ion-label{
+    margin-right: 25px;
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 12px;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   IonContent,
   IonHeader,
@@ -18,31 +18,35 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonText
+  IonText,
+  IonToast
 } from '@ionic/react';
 import '../styles/ProductDetails.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct,updateProduct} from '../store/productSlice';
+import { RootState } from '../store/store';
 
 
 
 function ProductDetails() {
   const { id } = useParams<{ id: string }>();
+
   const productId = parseInt(id || '', 10);
   const [product, setProduct] = useState<{ name: string; description: string; price: number; picture: string } | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const productsInit = useSelector((state: RootState) => state.prod.products );
+  const products = productsInit
 
   useEffect(() => {
     // Simulate fetching product details
     // Replace with actual fetch call
-    const fetchedProduct = {
-      name: 'Product Name',
-      description: 'Product Description',
-      price: 99.99,
-      picture: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png'
-    };
+    const fetchedProduct = products.find(prod=>prod.id === id)
 
-    setProduct(fetchedProduct);
+    setProduct(fetchedProduct as any);
     if (fetchedProduct) {
       setName(fetchedProduct.name);
       setDescription(fetchedProduct.description);
@@ -51,13 +55,25 @@ function ProductDetails() {
   }, [productId]);
 
   const handleUpdate = () => {
-    // Handle update logic here
-    console.log('Update', { name, description, price });
+    if (name && description && !isNaN(price)) {
+      dispatch(updateProduct({
+        id: String(productId),
+        name: name,
+        description: description,
+        price: price
+      }));
+      navigate('/homepage'); // Navigate after update
+    } else {
+      // Handle validation errors here
+      console.error('Please ensure all fields are filled correctly.');
+    }
   };
 
   const handleDelete = () => {
     // Handle delete logic here
-    console.log('Delete', productId);
+    dispatch(deleteProduct(String(productId)));
+    navigate('/homepage');
+
   };
 
   return (
@@ -76,7 +92,7 @@ function ProductDetails() {
                     <IonGrid>
                       <IonRow>
                         <IonCol size="12" sizeLg="6">
-                          <IonImg src={product.picture} />
+                          <IonImg src={"https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png"} />
                         </IonCol>
                         <IonCol size="12" sizeLg="6">
                           <IonItem>
@@ -101,7 +117,7 @@ function ProductDetails() {
                               onIonChange={(e) => setPrice(parseFloat(e.detail.value!))}
                             />
                           </IonItem>
-                          <IonButton expand="full" onClick={handleUpdate} color="primary">
+                          <IonButton id="open-toast" expand="full" onClick={handleUpdate} color="primary">
                             Update
                           </IonButton>
                           <IonButton expand="full" onClick={handleDelete} color="danger">
@@ -119,6 +135,7 @@ function ProductDetails() {
           </IonRow>
         </IonGrid>
       </IonContent>
+      <IonToast trigger="open-toast" message="This toast will disappear after 5 seconds" duration={5000}></IonToast>
     </IonPage>
   );
 };

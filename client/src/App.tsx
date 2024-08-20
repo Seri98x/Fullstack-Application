@@ -71,7 +71,7 @@ function MainApp() {
   }
 
   return (
-    <IonApp>
+    <IonApp className='ion-app'>
       {!isLoginPage && (
         <IonMenu contentId="main-content" >
           <IonHeader>

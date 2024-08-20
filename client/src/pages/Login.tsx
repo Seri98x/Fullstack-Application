@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store.tsx';
 import { loginUser } from '../store/authSlice.tsx'
 import { json, useNavigate } from 'react-router-dom';
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel, useIonAlert } from '@ionic/react';
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel, useIonAlert, IonInputPasswordToggle } from '@ionic/react';
 import '../styles/Login.css'
 import ionicLogo from '../assets/ioniclogo.png';
 import reactLogo from '../assets/reactlogo.png';
@@ -25,23 +25,30 @@ function Login() {
             navigate('/');
         }
     }, [token, navigate]);
-   
-     
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            handleClick();
+        }
+    };
+
+
     const handleClick = async () => {
 
-        if(username !== "tae" && password !== "tae1")
-        {
+        if (username !== "tae" && password !== "tae1") {
             presentAlert({
                 header: 'Oops!',
                 subHeader: 'Something is wrong',
                 message: 'An error has occured check your username/password if the problem persists contact developer.',
                 buttons: ['OK'],
             })
-             return;
+            return;
         }
 
 
-        sessionStorage.setItem("token",JSON.stringify('DSADASDASDSADAD'));
+
+
+        sessionStorage.setItem("token", JSON.stringify('DSADASDASDSADAD'));
         navigate('/');
 
         // try {
@@ -69,7 +76,7 @@ function Login() {
 
 
     return (
-          <div className="login-container">
+        <div className="login-container">
             {token && token != "" && token != undefined ? ("" + token) :
                 (
                     <IonCard >
@@ -90,45 +97,48 @@ function Login() {
                                 errorText="Invalid email"
                                 value={username}
                                 onIonInput={(event: CustomEvent) => setUsername(event.detail.value as string)}
-                            //   onIonBlur={() => markTouched()}
+                                onKeyDown={handleKeyDown}
                             ></IonInput>
 
                             <IonInput
                                 //   className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
-                                type="email"
+                                type="password"
                                 fill="outline"
                                 label="Password"
                                 labelPlacement="floating"
-                                errorText="Invalid email"
+                                errorText="Invalid password"
                                 value={password}
                                 onIonInput={(event: CustomEvent) => setPassword(event.detail.value as string)}
-                            //   onIonBlur={() => markTouched()}
-                            ></IonInput>
+                                onKeyDown={handleKeyDown}
+                            >
+
+                                <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                            </IonInput>
 
 
                             <IonButton onClick={handleClick} >
                                 Login
                             </IonButton>
                         </IonCardContent>
-                        
+
                     </IonCard>
 
                 )}
 
 
-                <div className='login-footer'>
-                    <img src={ionicLogo}></img>
-                    <img src={reactLogo}></img>
+            <div className='login-footer'>
+                <img src={ionicLogo}></img>
+                <img src={reactLogo}></img>
 
-                </div>
-
-               
-              
+            </div>
 
 
 
-</div>
-       
+
+
+
+        </div>
+
 
     );
 }
