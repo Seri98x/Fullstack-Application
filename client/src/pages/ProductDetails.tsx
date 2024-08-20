@@ -24,94 +24,85 @@ import {
 } from '@ionic/react';
 import '../styles/ProductDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProductAsync,updateProductAsync} from '../store/productSlice';
+import { deleteProductAsync, updateProductAsync } from '../store/productSlice';
 import { AppDispatch, RootState } from '../store/store';
-
-
 
 function ProductDetails() {
   const { id } = useParams<{ id: string }>();
   const [present] = useIonToast();
   const productId = parseInt(id || '', 10);
-  const [product, setProduct] = useState<{ name: string; description: string; price: number; picture: string } | null>(null);
+  const [product, setProduct] = useState<{ name: string; description: string; price: number;} | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
+  const [showToast, setShowToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const productsInit = useSelector((state: RootState) => state.prod.products );
-  const products = productsInit
+  const products = useSelector((state: RootState) => state.prod.products);
 
-  const presentToast = (position: 'top' | 'middle' | 'bottom',message:string) => {
+  const presentToast = (position: 'top' | 'middle' | 'bottom', message: string) => {
     present({
-      message: message,
-      duration: 3000,
+      message,
+      duration: 2000,
       position: position,
     });
   };
 
+  // Fetch product details on component mount or id change
   useEffect(() => {
-    // Simulate fetching product details
-    // Replace with actual fetch call
-    const fetchedProduct = products.find(prod=>prod.id == id)
+    const fetchProductDetails = async () => {
+      // Simulate a data fetching delay
+      const fetchedProduct = products.find(prod => prod.id == String(productId));
+      if (fetchedProduct) {
+        setProduct(fetchedProduct);
+        setName(fetchedProduct.name);
+        setDescription(fetchedProduct.description);
+        setPrice(fetchedProduct.price);
+      }
+    };
 
-    setProduct(fetchedProduct as any);
-    if (fetchedProduct) {
-      setName(fetchedProduct.name);
-      setDescription(fetchedProduct.description);
-      setPrice(fetchedProduct.price);
+    if (productId) {
+      fetchProductDetails();
     }
-  }, [productId]);
+  }, [productId, products]);
 
-  const handleUpdate = () => {
-    // Initialize an array to collect error messages
-    const errorMessages: string[] = [];
-  
-    // Check if each field is valid
-    if (!name || name == "") {
-      errorMessages.push('Name is required.');
+ const handleUpdate = async () => {
+    if (name && description && !isNaN(price) && price > 0) {
+      try {
+        await dispatch(updateProductAsync({
+          id: String(productId),
+          name,
+          description,
+          price
+        })).unwrap();
+
+        presentToast('bottom', 'Updated Successfully!');
+        navigate('/homepage');
+      } catch (error) {
+        console.error('Error updating product:', error);
+        presentToast('bottom', 'Failed to update product.');
+      }
+    } else {
+      if (!name) presentToast('bottom', 'Name is required.');
+      if (!description) presentToast('bottom', 'Description is required.');
+      if (isNaN(price) || price <= 0) presentToast('bottom', 'Price must be a positive number.');
     }
-    if (!description || description == "") {
-      errorMessages.push('Description is required.');
-    }
-    if (isNaN(price) || price <= 0) {
-      errorMessages.push('Price must be a positive number.');
-    }
-  
-    // If there are any error messages, log them and return
-    if (errorMessages.length > 0) {
-      presentToast('bottom', errorMessages.join(' '));
-      return;
-    }
-  
-    // Dispatch the updateProductAsync action if all fields are valid
-    dispatch(updateProductAsync({
-      id: String(productId),
-      name: name,
-      description: description,
-      price: price
-    }));
-  
-    // Show success toast message
-    presentToast('bottom', "Updated Successfully!");
-  
-    // Navigate to the homepage after the update
-    navigate('/homepage');
   };
-  
 
-  const handleDelete = () => {
-    // Handle delete logic here
-    dispatch(deleteProductAsync(String(productId)));
-    navigate('/homepage');
-
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteProductAsync(String(productId))).unwrap();
+      presentToast('bottom', 'Deleted Successfully!');
+      navigate('/homepage');
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      presentToast('bottom', 'Failed to delete product.');
+    }
   };
 
   return (
     <IonPage>
-      
       <IonContent>
-
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" sizeMd="12" sizeLg="12">
@@ -124,7 +115,7 @@ function ProductDetails() {
                     <IonGrid>
                       <IonRow>
                         <IonCol size="12" sizeLg="6">
-                          <IonImg src={"https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png"} />
+                          <IonImg src={'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'}   />
                         </IonCol>
                         <IonCol size="12" sizeLg="6">
                           <IonItem>
@@ -149,7 +140,7 @@ function ProductDetails() {
                               onIonChange={(e) => setPrice(parseFloat(e.detail.value!))}
                             />
                           </IonItem>
-                          <IonButton id="open-toast" expand="full" onClick={handleUpdate} color="primary">
+                          <IonButton expand="full" onClick={handleUpdate} color="primary">
                             Update
                           </IonButton>
                           <IonButton expand="full" onClick={handleDelete} color="danger">
@@ -163,20 +154,18 @@ function ProductDetails() {
                   )}
                 </IonCardContent>
               </IonCard>
-
             </IonCol>
           </IonRow>
-
         </IonGrid>
-
-      </IonContent> 
-
-   
+        <IonToast
+          isOpen={showToast.show}
+          onDidDismiss={() => setShowToast({ show: false, message: '' })}
+          message={showToast.message}
+          duration={2000}
+        />
+      </IonContent>
     </IonPage>
-    
-    
-    
   );
-};
+}
 
 export default ProductDetails;

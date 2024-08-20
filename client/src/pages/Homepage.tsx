@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { IonPage, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonInput } from '@ionic/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { IonPage, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonInput, useIonToast, IonSearchbar } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store'; // Adjust the path to your store file
@@ -9,6 +9,7 @@ import '../styles/Homepage.css'; // Add your styles here
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
 import { RootState } from '../store/store';
 
+
 interface Product {
   id: string;
   name: string;
@@ -16,16 +17,30 @@ interface Product {
   price: number;
 }
 
+
+
+
 function Homepage() {
+  const [present] = useIonToast();
+
   const modal = useRef<HTMLIonModalElement>(null);
   const addProductName = useRef<HTMLIonInputElement>(null);
   const addProductDescription = useRef<HTMLIonInputElement>(null);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // State for filtered products
   const addProductPrice = useRef<HTMLIonInputElement>(null);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector((state: RootState) => state.prod.products);
 
+  const presentToast = (position: 'top' | 'middle' | 'bottom', message: string) => {
+    present({
+      message,
+      duration: 2000,
+      position: position,
+    });
+  };
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -33,6 +48,16 @@ function Homepage() {
       dispatch(getProductsAsync()); // Fetch products when token is present
     }
   }, [token, navigate, dispatch]); // Depend on token and dispatch to avoid infinite loop
+
+  useEffect(() => {
+    // Filter products based on the search term
+    const filtered = products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      product.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
+
 
   function confirm() {
     modal.current?.dismiss([
@@ -61,8 +86,9 @@ function Homepage() {
       description,
       price,
     };
-
+     presentToast('bottom',"Created an item!")
     dispatch(createProductAsync(newProduct));
+   
   }
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
@@ -82,22 +108,27 @@ function Homepage() {
   return (
     <IonPage>
       <IonContent>
-        <div className='ion-button-container'>
+      <IonSearchbar
+          value={searchTerm}
+          onIonInput={(e) => setSearchTerm(e.detail.value as string)}
+          debounce={0} // Adjust debounce for better performance if needed
+          placeholder="Search products..."
+        />        <div className='ion-button-container'>
           <IonButton size="large" className='ion-button-add' id="open-modal" onClick={openCreateProductModal}>
             Add item
             <IonIcon slot="end" icon={addOutline}></IonIcon>
           </IonButton>
         </div>
         <IonList inset={true}>
-          {products.length > 0 ? (
-            products.map((product) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
               <IonItem
                 key={product.id}
                 button={true}
                 className='product'
                 onClick={() => showProductDetailsPage(product.id)}
               >
-                <img  className='product-image' alt={product.name} />
+                <img src={'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'} className='product-image' alt={product.name} />
                 <IonLabel>
                   <h1>{product.name}</h1>
                   <IonText color="medium">
