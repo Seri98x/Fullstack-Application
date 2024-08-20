@@ -38,4 +38,11 @@ margin: 10px auto;
     flex-direction: row;
     gap: 8px;
   }
-  
+
+
+
+  .product-name {
+
+    overflow: auto;
+    text-overflow: ellipsis;
+  }

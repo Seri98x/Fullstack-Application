@@ -129,9 +129,9 @@ function Homepage() {
                 onClick={() => showProductDetailsPage(product.id)}
               >
                 <img src={'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'} className='product-image' alt={product.name} />
-                <IonLabel>
+                <IonLabel  className='product-name' >
                   <h1>{product.name}</h1>
-                  <IonText color="medium">
+                  <IonText    color="medium">
                     <p>{product.description}</p>
                     <p>Price: ${product.price.toFixed(2)}</p>
                   </IonText>

@@ -122,14 +122,14 @@ function ProductDetails() {
                             <IonLabel>Name</IonLabel>
                             <IonInput
                               value={name}
-                              onIonChange={(e) => setName(e.detail.value!)}
+                              onIonInput={(e) => setName(e.detail.value!)}
                             />
                           </IonItem>
                           <IonItem>
                             <IonLabel>Description</IonLabel>
                             <IonInput
                               value={description}
-                              onIonChange={(e) => setDescription(e.detail.value!)}
+                              onIonInput={(e) => setDescription(e.detail.value!)}
                             />
                           </IonItem>
                           <IonItem>
@@ -137,7 +137,7 @@ function ProductDetails() {
                             <IonInput
                               type="number"
                               value={price}
-                              onIonChange={(e) => setPrice(parseFloat(e.detail.value!))}
+                              onIonInput={(e) => setPrice(parseFloat(e.detail.value!))}
                             />
                           </IonItem>
                           <IonButton expand="full" onClick={handleUpdate} color="primary">
