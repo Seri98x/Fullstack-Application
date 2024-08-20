@@ -2,12 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Flask API Debug",
+            "name": "Python: Flask",
             "type": "python",
             "request": "launch",
             "module": "flask",
-            "program": "${workspaceFolder}/api.py",
-            "console": "integratedTerminal",
             "env": {
                 "FLASK_APP": "api:app",
                 "FLASK_ENV": "development"
