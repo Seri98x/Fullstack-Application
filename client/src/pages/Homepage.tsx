@@ -1,4 +1,3 @@
-import React from "react";
 import{ useEffect, useRef, useState } from 'react';
 
 
@@ -25,7 +24,7 @@ interface Product {
 
 function Homepage() {
   const [present] = useIonToast();
-  React
+  
   const modal = useRef<HTMLIonModalElement>(null);
   const addProductName = useRef<HTMLIonInputElement>(null);
   const addProductDescription = useRef<HTMLIonInputElement>(null);

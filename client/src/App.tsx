@@ -32,9 +32,9 @@ setupIonicReact();
 
 function App() {
   return (
-    <BrowserRouter>
+    
       <MainApp />
-    </BrowserRouter>
+  
   );
 }
 
@@ -112,9 +112,8 @@ function MainApp() {
         <IonContent>
        
 
-
-
-        <Routes>
+     <BrowserRouter>
+     <Routes>
       <Route path="login" element={<Login />} />
       <Route path="/" element={<PrivateRoute />}>
         {/* Default route redirects to /homepage */}
@@ -125,6 +124,9 @@ function MainApp() {
       </Route>
     </Routes>
 
+     </BrowserRouter>
+     
+     
 
           
 
