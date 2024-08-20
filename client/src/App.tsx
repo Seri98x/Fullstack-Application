@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   IonApp,
-  IonButton,
   IonButtons,
   IonContent,
   IonFooter,
@@ -12,13 +11,12 @@ import {
   IonList,
   IonMenu,
   IonMenuButton,
-  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
   setupIonicReact
 } from '@ionic/react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
