@@ -4,6 +4,20 @@
 margin: 10px auto;   
 }
 
+.ion-button-add {
+    margin-top: 50px;
+   width: 30%;
+   align-self: center;
+}
+
+@media (max-width: 800px) {
+   
+    .ion-button-add {
+      width: 80%;
+      
+    }
+  }
+
 .product-image {
     width: 100px;
     height: 100px;

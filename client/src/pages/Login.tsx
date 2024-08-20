@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store.tsx';
 import { loginUser } from '../store/authSlice.tsx'
-import { useNavigate } from 'react-router-dom';
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel } from '@ionic/react';
+import { json, useNavigate } from 'react-router-dom';
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel, useIonAlert } from '@ionic/react';
 import '../styles/Login.css'
 import ionicLogo from '../assets/ioniclogo.png';
 import reactLogo from '../assets/reactlogo.png';
@@ -20,6 +20,8 @@ function Login() {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
+    const [presentAlert] = useIonAlert();
+
 
     useEffect(() => {
         if (token) {
@@ -29,30 +31,42 @@ function Login() {
    
      
     const handleClick = async () => {
-        
-     
 
-
-        try {
-            const userCreds = {
-                username,
-                password
-            };
-
-            const resultAction = await dispatch(loginUser(userCreds)).then((result) => {
-                if (result.payload) {
-                    setUsername("");
-                    setPassword("");
-                    navigate('/');
-                }
-            });
-
-
-
-        } catch (error) {
-            // Handle any errors that occur during the fetch
-            console.error('Fetch error:', error);
+        if(username !== "tae" && password !== "tae1")
+        {
+            presentAlert({
+                header: 'Oops!',
+                subHeader: 'Something is wrong',
+                message: 'An error has occured check your username/password if the problem persists contact developer.',
+                buttons: ['OK'],
+            })
+             return;
         }
+
+
+        sessionStorage.setItem("token",JSON.stringify('DSADASDASDSADAD'));
+        navigate('/');
+
+        // try {
+        //     const userCreds = {
+        //         username,
+        //         password
+        //     };
+
+        //     const resultAction = await dispatch(loginUser(userCreds)).then((result) => {
+        //         if (result.payload) {
+        //             setUsername("");
+        //             setPassword("");
+        //             navigate('/');
+        //         }
+        //     });
+
+
+
+        // } catch (error) {
+        //     // Handle any errors that occur during the fetch
+        //     console.error('Fetch error:', error);
+        // }
 
     }
 

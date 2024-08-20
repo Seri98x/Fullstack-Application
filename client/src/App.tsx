@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IonApp,
   IonButton,
@@ -18,7 +18,7 @@ import {
   IonToolbar,
   setupIonicReact
 } from '@ionic/react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigation, useNavigate } from 'react-router-dom';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -42,12 +42,38 @@ function App() {
 
 function MainApp() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLoginPage = location.pathname === '/login';
+  const [pageTitle, setPageTitle] = useState('Ionic App');
+
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (path.startsWith('/productDetails')) {
+      setPageTitle('Product Details');
+    } else {
+      switch (path) {
+        case '/homepage':
+          setPageTitle('Home Page');
+          break;
+        case '/login':
+          setPageTitle('Login');
+          break;
+        default:
+          setPageTitle('Ionic App');
+      }
+    }
+  }, [location.pathname]);
+
+  function logoutUser() {
+     sessionStorage.removeItem('token');
+     navigate('/login');
+  }
 
   return (
     <IonApp>
       {!isLoginPage && (
-        <IonMenu contentId="main-content">
+        <IonMenu contentId="main-content" >
           <IonHeader>
             <IonToolbar>
               <IonTitle>Menu</IonTitle>
@@ -61,8 +87,8 @@ function MainApp() {
               </IonItem>
             </IonList>
           </IonContent>
-          <IonFooter>
-          <IonItem button={true} routerLink="/login" slot="end">
+          <IonFooter  translucent={true} className="ion-no-border">
+          <IonItem button={true} onClick={logoutUser} slot="end">
                 <IonIcon color="danger" slot="start" icon={logOut} size="large"></IonIcon>
                 <IonLabel>Logout</IonLabel>
               </IonItem>
@@ -78,7 +104,7 @@ function MainApp() {
                 <IonMenuButton />
               </IonButtons>
             )}
-            <IonTitle>Ionic App</IonTitle>
+            <IonTitle>{pageTitle}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -92,7 +118,7 @@ function MainApp() {
         {/* Default route redirects to /homepage */}
         <Route path="/" element={<Navigate to="/homepage" replace />} />
         <Route path="homepage" element={<Homepage />} />
-        <Route path="productdetails" element={<ProductDetails />} />
+        <Route path="productdetails/:id" element={<ProductDetails />} />
       </Route>
     </Routes>
 
