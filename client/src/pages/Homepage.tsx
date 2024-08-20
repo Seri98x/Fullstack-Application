@@ -1,4 +1,7 @@
+import React from "react";
 import{ useEffect, useRef, useState } from 'react';
+
+
 import { IonPage, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonInput, useIonToast, IonSearchbar } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +25,7 @@ interface Product {
 
 function Homepage() {
   const [present] = useIonToast();
-
+  React
   const modal = useRef<HTMLIonModalElement>(null);
   const addProductName = useRef<HTMLIonInputElement>(null);
   const addProductDescription = useRef<HTMLIonInputElement>(null);
