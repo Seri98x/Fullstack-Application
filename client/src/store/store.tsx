@@ -17,4 +17,4 @@ export type AppDispatch = typeof store.dispatch;
 
 
 export default store;
-console.log(store.getState());
+
