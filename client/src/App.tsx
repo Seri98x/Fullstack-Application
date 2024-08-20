@@ -118,8 +118,8 @@ function MainApp() {
       <Route path="login" element={<Login />} />
       <Route path="/" element={<PrivateRoute />}>
         {/* Default route redirects to /homepage */}
-        <Route path="/" element={<Navigate to="homepage"  />} />
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Navigate to="/homepage" replace   />} />
+        <Route path="homepage" element={<Homepage />} />
         <Route path="productdetails/:id" element={<ProductDetails />} />
       </Route>
     </Routes>
