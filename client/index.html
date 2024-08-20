@@ -8,15 +8,26 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
-      (() => {
-        const redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+    <script type="module">
+      // Function to handle routing and redirection
+      function handleRouting() {
+        const path = window.location.pathname;
+        
+        // Define the paths that should be handled
+        const allowedPaths = ['/homepage', '/login', '/product'];
+        
+        if (allowedPaths.includes(path)) {
+          // Do nothing, stay on the current path
+          return;
+        } else {
+          // Redirect to index if path does not match
+          window.location.href = '/index';
         }
-      })();
+      }
+
+      // Execute routing function on page load
+      document.addEventListener('DOMContentLoaded', handleRouting);
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
