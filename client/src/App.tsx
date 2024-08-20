@@ -79,7 +79,7 @@ function MainApp() {
           </IonHeader>
           <IonContent>
             <IonList>
-              <IonItem button={true} routerLink="homepage">
+              <IonItem button={true} routerLink="/">
                 <IonIcon color="medium" slot="start" icon={home} size="large"></IonIcon>
                 <IonLabel>Home</IonLabel>
               </IonItem>
