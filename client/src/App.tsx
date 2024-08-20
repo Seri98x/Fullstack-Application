@@ -1,50 +1,108 @@
-import { useState } from 'react'
-import { IonApp, IonButton, IonContent,setupIonicReact } from '@ionic/react'
-/* Core CSS required for Ionic components to work properly */
-/* Core CSS required for Ionic components to work properly */
+import { useState } from 'react';
+import {
+  IonApp,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenu,
+  IonMenuButton,
+  IonNote,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  setupIonicReact
+} from '@ionic/react';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import Login from './pages/Login';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import ProductDetails from './pages/ProductDetails';
+import { home, logOut } from 'ionicons/icons';
+import PrivateRoute from './utilities/PrivateRoute';
+
 
 setupIonicReact();
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <IonApp>
-
-
-        <IonContent>
-
-            <BrowserRouter>
-
-             <Routes>
-
-
-              <Route path="login" element={<Login/>}/>
-              <Route path="/" element={<Homepage/>}/>
-              <Route path="productdetails" element={<ProductDetails/>}/>
-
-             </Routes>
- 
-
-            </BrowserRouter>
-
-        </IonContent>
-
-
-      </IonApp>
-    </>
-  )
+    <BrowserRouter>
+      <MainApp />
+    </BrowserRouter>
+  );
 }
 
-export default App
+function MainApp() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+
+  return (
+    <IonApp>
+      {!isLoginPage && (
+        <IonMenu contentId="main-content">
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>Menu</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <IonList>
+              <IonItem button={true} routerLink="/homepage">
+                <IonIcon color="medium" slot="start" icon={home} size="large"></IonIcon>
+                <IonLabel>Home</IonLabel>
+              </IonItem>
+            </IonList>
+          </IonContent>
+          <IonFooter>
+          <IonItem button={true} routerLink="/login" slot="end">
+                <IonIcon color="danger" slot="start" icon={logOut} size="large"></IonIcon>
+                <IonLabel>Logout</IonLabel>
+              </IonItem>
+          </IonFooter>
+        </IonMenu>
+      )}
+
+      <IonPage id="main-content">
+        <IonHeader>
+          <IonToolbar>
+            {!isLoginPage && (
+              <IonButtons slot="start">
+                <IonMenuButton />
+              </IonButtons>
+            )}
+            <IonTitle>Ionic App</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+       
+
+
+
+        <Routes>
+      <Route path="login" element={<Login />} />
+      <Route path="/" element={<PrivateRoute />}>
+        {/* Default route redirects to /homepage */}
+        <Route path="/" element={<Navigate to="/homepage" replace />} />
+        <Route path="homepage" element={<Homepage />} />
+        <Route path="productdetails" element={<ProductDetails />} />
+      </Route>
+    </Routes>
+
+
+          
+
+        </IonContent>
+      </IonPage>
+    </IonApp>
+  );
+}
+
+export default App;

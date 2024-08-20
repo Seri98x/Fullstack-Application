@@ -1,0 +1,20 @@
+/* src/components/ProductList.css */
+
+.product {
+margin: 10px auto;   
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 16px;
+    border-radius: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
