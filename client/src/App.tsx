@@ -16,7 +16,7 @@ import {
   IonToolbar,
   setupIonicReact
 } from '@ionic/react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -68,6 +68,10 @@ function MainApp() {
      navigate('/login');
   }
 
+  function navToHome() {
+  navigate('/');
+  }
+
   return (
     <IonApp className='ion-app'>
       {!isLoginPage && (
@@ -79,7 +83,7 @@ function MainApp() {
           </IonHeader>
           <IonContent>
             <IonList>
-              <IonItem button={true} routerLink="/">
+              <IonItem button={true} onClick={navToHome}>
                 <IonIcon color="medium" slot="start" icon={home} size="large"></IonIcon>
                 <IonLabel>Home</IonLabel>
               </IonItem>
@@ -114,7 +118,7 @@ function MainApp() {
       <Route path="login" element={<Login />} />
       <Route path="/" element={<PrivateRoute />}>
         {/* Default route redirects to /homepage */}
-        {/* <Route path="/" element={<Navigate to="homepage" replace />} /> */}
+        <Route path="/" element={<Navigate to="homepage" replace />} />
         <Route path="homepage" element={<Homepage />} />
         <Route path="productdetails/:id" element={<ProductDetails />} />
       </Route>
