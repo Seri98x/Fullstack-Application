@@ -22,7 +22,6 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.token = action.payload.accessToken;
-      
     },
     logOut: (state) => {
       state.token = null;
@@ -38,6 +37,7 @@ const authSlice = createSlice({
       });
   },
 });
+
 
 export const { setCredentials, logOut } = authSlice.actions;
 

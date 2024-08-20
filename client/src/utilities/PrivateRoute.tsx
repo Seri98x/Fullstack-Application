@@ -6,7 +6,6 @@ import { selectCurrentToken } from '../store/authSlice';
 const  PrivateRoute = () => {
   const token =  sessionStorage.getItem('token');
   const isAuthenticated = !!token;
-  console.log(isAuthenticated);
   return isAuthenticated ? <Outlet /> : <Navigate to="login"  />;
 };
 

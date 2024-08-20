@@ -10,8 +10,6 @@ import ionicLogo from '../assets/ioniclogo.png';
 import reactLogo from '../assets/reactlogo.png';
 
 
-
-
 function Login() {
 
 
@@ -21,7 +19,6 @@ function Login() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
     const [presentAlert] = useIonAlert();
-
 
     useEffect(() => {
         if (token) {
@@ -72,10 +69,6 @@ function Login() {
 
 
     return (
-
-   
-
-          
           <div className="login-container">
             {token && token != "" && token != undefined ? ("" + token) :
                 (
