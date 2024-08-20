@@ -1,23 +1,20 @@
 import React, { useEffect, useRef } from 'react';
-import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton, IonMenuButton, IonLabel, IonList, IonItem, IonText, IonIcon, IonButtons, IonInput, IonModal } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonInput } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store'; // Adjust the path to your store file
-import {  } from '../store/productSlice'; // Adjust the path to your productSlice
+import { createProductAsync, getProductsAsync } from '../store/productSlice'; // Adjust the path to your productSlice
 import { addOutline } from 'ionicons/icons'; // For the icons
 import '../styles/Homepage.css'; // Add your styles here
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
-import { RootState } from '../store/store'
-import { addProduct,getProductsAsync } from '../store/productSlice';
-
+import { RootState } from '../store/store';
 
 interface Product {
-  id:string,
-  name:string,
-  description:string,
-  price:number
+  id: string;
+  name: string;
+  description: string;
+  price: number;
 }
-
 
 function Homepage() {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -27,97 +24,80 @@ function Homepage() {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  dispatch(getProductsAsync());
   const products = useSelector((state: RootState) => state.prod.products);
 
-
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    } else {
+      dispatch(getProductsAsync()); // Fetch products when token is present
+    }
+  }, [token, navigate, dispatch]); // Depend on token and dispatch to avoid infinite loop
 
   function confirm() {
+    modal.current?.dismiss([
+      addProductName.current?.value,
+      addProductDescription.current?.value,
+      addProductPrice.current?.value
+    ], 'confirm');
 
-    modal.current?.dismiss([addProductName.current?.value,addProductDescription.current?.value,addProductPrice.current?.value], 'confirm');
-     const name : string = String(addProductName.current?.value) ;
-    const description : string = String(addProductDescription.current?.value);
-    const priceString = addProductPrice.current?.value; // Default to '0' if undefined
-    const price = parseFloat(String(priceString)); // Convert to number
-    
-    
-    
-    if (
-      !name || 
-      !description || 
-      isNaN(parseFloat(String(priceString))) || 
-      parseFloat(String(priceString)) <= 0
-    ) {
+    const name: string = String(addProductName.current?.value || '').trim();
+    const description: string = String(addProductDescription.current?.value || '').trim();
+    const priceString = addProductPrice.current?.value || '0';
+    const price = parseFloat(String(priceString));
+
+    if (!name || !description || isNaN(price) || price <= 0) {
       alert(
-        'Please ensure all fields are filled correctly: \n' +
+        'Please ensure all fields are filled correctly:\n' +
         'Name and description are required.\n' +
         'Price must be a positive number.'
       );
       return;
     }
-    
-    const newProduct:Product  =   {
-      id: String(Date.now()), // Generate a unique ID (consider using a better method for unique IDs)
+
+    const newProduct: Product = {
+      id: "",
       name,
       description,
       price,
     };
 
-
-
-
-    dispatch(addProduct(newProduct));
-
+    dispatch(createProductAsync(newProduct));
   }
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === 'confirm') {
-     
+      // Handle the confirmation logic if needed
     }
   }
 
-
-
-  useEffect(() => {
-    if (!token) {
-      navigate('login');
-    } else {
-      // dispatch( fetchProducts() as any); // Fetch products when component mounts
-    }
-  }, [token, navigate, dispatch]);
-
-  const showProductDetailsPage = (id: number) => {
+  const showProductDetailsPage = (id: string) => {
     navigate(`/productDetails/${id}`); // Navigate with the product id
   };
 
   function openCreateProductModal() {
-
-    
+    modal.current?.present();
   }
 
   return (
     <IonPage>
-   
       <IonContent>
-
-           <div className='ion-button-container'>
-
-         
-        <IonButton size="large" className='ion-button-add' id="open-modal" >
-          Add item
-          <IonIcon slot="end" icon={addOutline}></IonIcon>
-        </IonButton>
+        <div className='ion-button-container'>
+          <IonButton size="large" className='ion-button-add' id="open-modal" onClick={openCreateProductModal}>
+            Add item
+            <IonIcon slot="end" icon={addOutline}></IonIcon>
+          </IonButton>
         </div>
         <IonList inset={true}>
           {products.length > 0 ? (
-            products.map((product:any) => (
+            products.map((product) => (
               <IonItem
                 key={product.id}
                 button={true}
                 className='product'
                 onClick={() => showProductDetailsPage(product.id)}
               >
-                <img src={product.picture} className='product-image' alt={product.name} />
+                <img  className='product-image' alt={product.name} />
                 <IonLabel>
                   <h1>{product.name}</h1>
                   <IonText color="medium">
@@ -176,8 +156,6 @@ function Homepage() {
             </IonItem>
           </IonContent>
         </IonModal>
-
-
       </IonContent>
     </IonPage>
   );
