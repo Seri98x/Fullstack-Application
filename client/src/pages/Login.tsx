@@ -34,44 +34,49 @@ function Login() {
 
 
     const handleClick = async () => {
-
-        if (username !== "tae" && password !== "tae1") {
+        if (!username || !password) {
             presentAlert({
-                header: 'Oops!',
-                subHeader: 'Something is wrong',
-                message: 'An error has occured check your username/password if the problem persists contact developer.',
+                header: 'Input Error',
+                message: 'Please enter both username and password.',
                 buttons: ['OK'],
-            })
+            });
             return;
         }
 
+        try {
+            // Dispatch the login action
+            const resultAction = await dispatch(loginUser({ username, password }));
+
+            // Handle result
+            if (loginUser.fulfilled.match(resultAction)) {
+                // Successfully logged in
+                const token = resultAction.payload;
+                sessionStorage.setItem('token', JSON.stringify(token));
+                setUsername('');
+                setPassword('');
+                navigate('/');
+            } else {
+                const statusCode = resultAction.error.message?.includes('401') ? 401 : 500;
+                // Handle login failure
+                presentAlert({
+                    header: 'Login Failed',
+                    message: statusCode === 401 ? 'Check credentials and try again.' : 'Failed to login. Please try again later.',
+                    buttons: ['OK'],
+                });
+            }
+        } catch (error) {
+            presentAlert({
+                header: 'Error',
+                message: 'An error occurred during login. Please try again later.',
+                buttons: ['OK'],
+            });
+            console.error('Login error:', error);
+        }
+    
 
 
 
-        sessionStorage.setItem("token", JSON.stringify('DSADASDASDSADAD'));
-        navigate('/');
-
-        // try {
-        //     const userCreds = {
-        //         username,
-        //         password
-        //     };
-
-        //     const resultAction = await dispatch(loginUser(userCreds)).then((result) => {
-        //         if (result.payload) {
-        //             setUsername("");
-        //             setPassword("");
-        //             navigate('/');
-        //         }
-        //     });
-
-
-
-        // } catch (error) {
-        //     // Handle any errors that occur during the fetch
-        //     console.error('Fetch error:', error);
-        // }
-
+    
     }
 
 

@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "8986e771-4a19-410d-9d79-84cbce67ce19",
+		"name": "FS-Endpoints",
+		"description": "This are all the endpoints for the Fullstack Exam. It consists of 5 endpoints which demonstrates CRUD operation using Flask API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37767401"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin_password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNDA3MTU2NywianRpIjoiMDA1NGVjYTEtZGMwMy00ZTliLTgzY2MtZWI2ZTI0N2JlOGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzI0MDcxNTY3LCJjc3JmIjoiNTkwMWQxYWMtMjc2Ny00NDg2LTg2MGMtZmI4NTk3NjIzYmE1In0.JIdjADMc7AUZrU-Dl5y0AIflC0WiOLYK9HotIsvvnEE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://seri98.pythonanywhere.com/api/items",
+					"protocol": "https",
+					"host": [
+						"seri98",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNDA3MTU2NywianRpIjoiMDA1NGVjYTEtZGMwMy00ZTliLTgzY2MtZWI2ZTI0N2JlOGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzI0MDcxNTY3LCJjc3JmIjoiNTkwMWQxYWMtMjc2Ny00NDg2LTg2MGMtZmI4NTk3NjIzYmE1In0.JIdjADMc7AUZrU-Dl5y0AIflC0WiOLYK9HotIsvvnEE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "1",
+						"value": "1",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://seri98.pythonanywhere.com/api/items/1",
+					"protocol": "https",
+					"host": [
+						"seri98",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"items",
+						"1"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNDA3MTU2NywianRpIjoiMDA1NGVjYTEtZGMwMy00ZTliLTgzY2MtZWI2ZTI0N2JlOGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzI0MDcxNTY3LCJjc3JmIjoiNTkwMWQxYWMtMjc2Ny00NDg2LTg2MGMtZmI4NTk3NjIzYmE1In0.JIdjADMc7AUZrU-Dl5y0AIflC0WiOLYK9HotIsvvnEE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://seri98.pythonanywhere.com/items/1",
+					"protocol": "https",
+					"host": [
+						"seri98",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNDA3MTU2NywianRpIjoiMDA1NGVjYTEtZGMwMy00ZTliLTgzY2MtZWI2ZTI0N2JlOGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzI0MDcxNTY3LCJjc3JmIjoiNTkwMWQxYWMtMjc2Ny00NDg2LTg2MGMtZmI4NTk3NjIzYmE1In0.JIdjADMc7AUZrU-Dl5y0AIflC0WiOLYK9HotIsvvnEE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"testUpdate\",\r\n    \"description\": \"testUpdateDesc\",\r\n    \"price\": 59\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://seri98.pythonanywhere.com/api/items/2",
+					"protocol": "https",
+					"host": [
+						"seri98",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"items",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNDA3MTU2NywianRpIjoiMDA1NGVjYTEtZGMwMy00ZTliLTgzY2MtZWI2ZTI0N2JlOGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzI0MDcxNTY3LCJjc3JmIjoiNTkwMWQxYWMtMjc2Ny00NDg2LTg2MGMtZmI4NTk3NjIzYmE1In0.JIdjADMc7AUZrU-Dl5y0AIflC0WiOLYK9HotIsvvnEE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"description\":\"test\",\r\n    \"price\":0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://seri98.pythonanywhere.com/api/items",
+					"protocol": "https",
+					"host": [
+						"seri98",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

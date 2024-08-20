@@ -8,7 +8,7 @@ import { addOutline } from 'ionicons/icons'; // For the icons
 import '../styles/Homepage.css'; // Add your styles here
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
 import { RootState } from '../store/store'
-import { addProduct } from '../store/productSlice';
+import { addProduct,getProductsAsync } from '../store/productSlice';
 
 
 interface Product {
@@ -26,11 +26,10 @@ function Homepage() {
   const addProductPrice = useRef<HTMLIonInputElement>(null);
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const productsInit = useSelector((state: RootState) => state.prod.products );
-  const products = productsInit
-  console.log(products[0]);
-  
+  const dispatch = useDispatch<AppDispatch>();
+  dispatch(getProductsAsync());
+  const products = useSelector((state: RootState) => state.prod.products);
+
 
 
   function confirm() {

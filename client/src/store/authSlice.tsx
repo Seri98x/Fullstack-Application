@@ -5,9 +5,8 @@ import axios from 'axios';
 export const loginUser = createAsyncThunk<string, { username: string; password: string }>(
   'auth/loginUser',
   async (userCreds) => {
-    const response = await axios.post('http://localhost:5000/login', userCreds);
+    const response = await axios.post('https://seri98.pythonanywhere.com/login', userCreds);
     const accessToken = response.data.access_token;
-    sessionStorage.setItem('token', JSON.stringify(accessToken));
     return accessToken;
   }
 );
@@ -31,6 +30,7 @@ const authSlice = createSlice({
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
         state.token = action.payload;
+        sessionStorage.setItem('token', JSON.stringify(action.payload));
       })
       .addCase(loginUser.rejected, (state, action) => {
         console.error('Login failed:', action.error);
