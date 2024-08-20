@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store.tsx';
 import { loginUser } from '../store/authSlice.tsx'
-import { json, useNavigate } from 'react-router-dom';
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, IonLabel, useIonAlert, IonInputPasswordToggle } from '@ionic/react';
+import {  useNavigate } from 'react-router-dom';
+import { IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInput, useIonAlert, IonInputPasswordToggle } from '@ionic/react';
 import '../styles/Login.css'
 import ionicLogo from '../assets/ioniclogo.png';
 import reactLogo from '../assets/reactlogo.png';

@@ -32,8 +32,8 @@ const authSlice = createSlice({
         state.token = action.payload;
         sessionStorage.setItem('token', JSON.stringify(action.payload));
       })
-      .addCase(loginUser.rejected, (state, action) => {
-        console.error('Login failed:', action.error);
+      .addCase(loginUser.rejected, (action) => {
+        console.error('Login failed:', action);
       });
   },
 });
