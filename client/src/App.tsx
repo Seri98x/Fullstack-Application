@@ -121,6 +121,7 @@ function MainApp() {
         <Route path="/" element={<Navigate to="/homepage" replace   />} />
         <Route path="homepage" element={<Homepage />} />
         <Route path="productdetails/:id" element={<ProductDetails />} />
+        <Route path="*" element={<Navigate to="/homepage" replace />} />
       </Route>
     </Routes>
 
