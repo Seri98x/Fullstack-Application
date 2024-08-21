@@ -37,7 +37,6 @@ function ProductDetails() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const products = useSelector((state: RootState) => state.prod.products);
-  let productRefresh: { name: string; description: string; price: number;};
   const presentToast = (position: 'top' | 'middle' | 'bottom', message: string) => {
     present({
       message,
@@ -47,12 +46,6 @@ function ProductDetails() {
   };
 
 
-  interface ProductDto {
-    name: string;
-    description: string;
-    price: number;
-  }
-  
 
   // Fetch product details on component mount or id change
   useEffect(() => {
@@ -85,11 +78,6 @@ function ProductDetails() {
     }
   }, [productId, products]);
 
-
-  if(productId && !product){
-    const fetchedProduct = products.find(prod => prod.id == String(productId));
-  
-  }
 
  const handleUpdate = async () => {
     if (name && description && !isNaN(price) && price > 0) {
