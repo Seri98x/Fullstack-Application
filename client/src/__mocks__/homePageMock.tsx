@@ -1,6 +1,7 @@
 import React from 'react';
 
 function HomepageMock() {
+    React
   return (
     <div>
       <h1>Homepage</h1>

@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
+
 
 function LoginMock() {
+    React
   return (
     <div>
       <h1>Login Page</h1>
