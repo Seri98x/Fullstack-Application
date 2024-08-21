@@ -22,7 +22,7 @@ import {
 import '../styles/ProductDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProductAsync, updateProductAsync } from '../store/productSlice';
-import store, { AppDispatch, RootState } from '../store/store';
+import  { AppDispatch, RootState } from '../store/store';
 
 function ProductDetails() {
   

@@ -2,7 +2,8 @@ import React from "react";
 
 
 function LoginMock() {
-    React
+    const react = React;
+    react;
   return (
     <div>
       <h1>Login Page</h1>
