@@ -2,7 +2,8 @@ import React from "react";
 
 
 function ProductDetailsMock() {
-    React
+    const react = React;
+    react;
   return (
     <div>
       <h1>Product Details</h1>
