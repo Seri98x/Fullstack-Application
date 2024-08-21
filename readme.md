@@ -42,3 +42,8 @@ py -m  pytest -k "test_get_item" -v
 py -m  pytest -k "test_update_item" -v
 
 py -m  pytest -k "test_delete_item" -v
+
+
+To unit test React components simply run npm test 
+
+Three components are tested and all are mock up of the concrete components.
