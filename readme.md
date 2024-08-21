@@ -21,7 +21,7 @@ Instructions to run locally :
 2. Install Python
 3. Install Python Libraries (this can be done by simple typing pip install -r requirements.txt as I've already included requirements.txt inside the folder so that it will find all the dependencies and download them all)
 4. Install React and Vite CLI
-5. Run npm install to get all the dependencies (if there is an error that needs legacy dependencies the run 'npm install --legacy-peer-deps' instead and it will gather all the dependencies)
+5. Run npm install to get all the dependencies (if there is an error that needs legacy dependencies then run 'npm install --legacy-peer-deps' instead and it will gather all the dependencies)
 6. Run Python Flask API by 'py api.py' or 'python api.py'
 7. Run client side by  'npm run dev'
 
