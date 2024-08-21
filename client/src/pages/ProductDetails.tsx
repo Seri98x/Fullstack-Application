@@ -22,7 +22,7 @@ import {
 import '../styles/ProductDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProductAsync, updateProductAsync } from '../store/productSlice';
-import { AppDispatch, RootState } from '../store/store';
+import store, { AppDispatch, RootState } from '../store/store';
 
 function ProductDetails() {
   
@@ -77,6 +77,17 @@ function ProductDetails() {
       fetchProductDetails();
     }
   }, [productId, products]);
+
+
+
+
+ useEffect(() => {
+  const storedProduct = JSON.parse(localStorage.getItem('productDetails') as any);
+  if(storedProduct.id != id){
+    navigate('/');
+  }
+},[])
+ 
 
 
  const handleUpdate = async () => {

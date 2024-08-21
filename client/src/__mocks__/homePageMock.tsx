@@ -1,8 +1,10 @@
-import React from 'react';
+// import React from 'react';
 
 function HomepageMock() {
-    React
+    // const react = React;
+    // react;
   return (
+    
     <div>
       <h1>Homepage</h1>
       <input type="text" placeholder="Search products..." aria-label="Search products" />

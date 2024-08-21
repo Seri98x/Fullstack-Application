@@ -61,7 +61,7 @@ function Homepage() {
   }, [searchTerm, products]);
 
 
-  function confirm() {
+  async function confirm() {
     modal.current?.dismiss([
       addProductName.current?.value,
       addProductDescription.current?.value,
@@ -89,8 +89,13 @@ function Homepage() {
       price,
     };
      presentToast('bottom',"Created an item!")
-    dispatch(createProductAsync(newProduct));
-   
+     const resultAction = await dispatch(createProductAsync(newProduct));
+
+     if (createProductAsync.fulfilled.match(resultAction)) {
+       // Handle the successful creation, e.g., update filteredProducts
+       filteredProducts.push(resultAction.payload);
+     }
+
   }
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
