@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 
 
 function ProductDetailsMock() {
-    const react = React;
-    react;
+    // const react = React;
+    // react;
   return (
     <div>
       <h1>Product Details</h1>
