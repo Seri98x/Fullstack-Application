@@ -22,8 +22,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/login",
-					"protocol": "http",
+					"raw": "https://seri98.pythonanywhere.com/login",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
