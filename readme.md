@@ -1,19 +1,19 @@
 A Fullstack project examination using React (Vite) + Flask (Backend) with Ionic Framework.
 
 Project includes :
-Client Side - React JS + Vite (Ionic Framework)
-Back End - Python Flask (Deployed live at Pythonanywhere)
-Postman Collection For Endpoint Testing
+(Client Side) - React JS + Vite (Ionic Framework)
+(Back End) - Python Flask (Deployed live at Pythonanywhere),
+Postman Collection For Endpoint Testing,
 Python Unit Tests (test_app.py)
 
 Pre-requisites : 
-NodeJs
-Vite
-Ionic Framework
-Flask
-Redux Toolkit
-React Router Dom
-Axios
+NodeJs,
+Vite,
+Ionic Framework,
+Flask,
+Redux Toolkit,
+React Router Dom,
+Axios,
 
 Instructions to run locally :
 
