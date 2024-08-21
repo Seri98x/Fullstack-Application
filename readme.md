@@ -47,3 +47,6 @@ py -m  pytest -k "test_delete_item" -v
 To unit test React components simply run npm test 
 
 Three components are tested and all are mock up of the concrete components.
+
+Live link : (https://fs-revinic-flask-ldu2nza1a-jose-maris-projects.vercel.app/)
+
