@@ -25,6 +25,7 @@ import { deleteProductAsync, updateProductAsync } from '../store/productSlice';
 import { AppDispatch, RootState } from '../store/store';
 
 function ProductDetails() {
+  
   const { id } = useParams<{ id: string }>();
   const [present] = useIonToast();
   const productId = parseInt(id || '', 10);
@@ -36,7 +37,7 @@ function ProductDetails() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const products = useSelector((state: RootState) => state.prod.products);
-
+  let productRefresh: { name: string; description: string; price: number;};
   const presentToast = (position: 'top' | 'middle' | 'bottom', message: string) => {
     present({
       message,
@@ -45,16 +46,37 @@ function ProductDetails() {
     });
   };
 
+
+  interface ProductDto {
+    name: string;
+    description: string;
+    price: number;
+  }
+  
+
   // Fetch product details on component mount or id change
   useEffect(() => {
     const fetchProductDetails = async () => {
       // Simulate a data fetching delay
       const fetchedProduct = products.find(prod => prod.id == String(productId));
+    
+
+      
       if (fetchedProduct) {
         setProduct(fetchedProduct);
         setName(fetchedProduct.name);
         setDescription(fetchedProduct.description);
         setPrice(fetchedProduct.price);
+        localStorage.setItem('productDetails',JSON.stringify(fetchedProduct));
+      } else
+      {
+       const storedProduct = JSON.parse(localStorage.getItem('productDetails') as any);
+  
+       setProduct(storedProduct);
+       setName(storedProduct.name);
+       setDescription(storedProduct.description);
+       setPrice(storedProduct.price);
+       
       }
     };
 
@@ -62,6 +84,12 @@ function ProductDetails() {
       fetchProductDetails();
     }
   }, [productId, products]);
+
+
+  if(productId && !product){
+    const fetchedProduct = products.find(prod => prod.id == String(productId));
+  
+  }
 
  const handleUpdate = async () => {
     if (name && description && !isNaN(price) && price > 0) {
