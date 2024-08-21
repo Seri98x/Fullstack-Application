@@ -29,7 +29,7 @@ Additional/s :
 
 To test API endpoints, download Postman then use the collections included inside the folder to use the endpoints immediately (Note: the endpoint is already pointing at live flask server)
 
-To unit test Python Flask API run the following commands (Asserts are inside the python py) : 
+To unit test Python Flask API run the following commands (Asserts are inside the test-app.py) : 
 
 py -m  pytest -k "test_login_success" -v
 
